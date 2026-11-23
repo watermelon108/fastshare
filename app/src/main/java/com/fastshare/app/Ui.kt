@@ -104,6 +104,10 @@ fun FastShareApp() {
             unread = unread,
             snackbar = snackbar,
             onOpen = { Hub.select(it.id) },
+            onCode = {
+                Hub.newPairingCode()
+                codeOpen = true
+            },
             onSettings = { showSettings = true }
         )
     }
@@ -176,13 +180,17 @@ fun HomeScreen(
     unread: Set<String>,
     snackbar: SnackbarHostState,
     onOpen: (Device) -> Unit,
+    onCode: () -> Unit,
     onSettings: () -> Unit
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 title = { Text("FastShare", fontWeight = FontWeight.Bold) },
-                actions = { TextButton(onClick = onSettings) { Text("Settings") } }
+                actions = {
+                    TextButton(onClick = onCode) { Text("Code") }
+                    TextButton(onClick = onSettings) { Text("Settings") }
+                }
             )
         },
         snackbarHost = { SnackbarHost(snackbar) }
